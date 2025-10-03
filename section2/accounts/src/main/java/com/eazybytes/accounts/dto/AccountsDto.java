@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class AccountsDto {
 
-    @Pattern(regexp = "(^$|[0-9]{9})", message = "accountNumber must be exactly 9 digits")
-    private Long  accountNumber;
+    @Pattern(regexp = "(^$|[0-9]{10})", message = "accountNumber must be exactly 10 digits")
+    private Long accountNumber;
 
     @NotEmpty(message = "Account type cannot be empty")
     private String accountType;
