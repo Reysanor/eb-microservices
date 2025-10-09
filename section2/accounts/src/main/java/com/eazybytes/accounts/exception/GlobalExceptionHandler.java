@@ -21,7 +21,9 @@ import java.util.Map;
 
 /**
  * Global Exception Handler to handle all the exceptions across the application
- * ControllerAdvice - when exception happens invoke method from this class
+ * ControllerAdvice - to provide response in format of html, json, xml etc.
+ * when exception happens invoke method from this class
+ * RestControllerAdvice - to provide response in json/xml format
  * ResponseEntityExceptionHandler - to provide default implementation for handling exceptions in spring
  **/
 @ControllerAdvice
