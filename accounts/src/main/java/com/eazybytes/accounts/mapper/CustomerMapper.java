@@ -4,7 +4,10 @@ import com.eazybytes.accounts.dto.CustomerDto;
 import com.eazybytes.accounts.entity.Customer;
 
 public class CustomerMapper {
-
+    /**
+     * This class is intended to map account-related data between different layers of the application.
+     * Will convert Dto to entity class and vice versa.
+     */
     public static CustomerDto mapToCustomerDto(Customer customer, CustomerDto customerDto) {
         customerDto.setName(customer.getName());
         customerDto.setEmail(customer.getEmail());

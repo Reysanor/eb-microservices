@@ -3,7 +3,7 @@ package com.eazybytes.accounts.constants;
 public final class AccountsConstants {
 
     private AccountsConstants() {
-        // restrict instantiation
+        // restrict instantiation of this class - I want to keep only codes here
     }
 
     public static final String  SAVINGS = "Savings";

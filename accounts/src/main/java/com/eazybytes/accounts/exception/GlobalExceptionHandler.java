@@ -18,9 +18,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Global Exception Handler to handle all the exceptions across the application
+ * ControllerAdvice - to provide response in format of html, json, xml etc.
+ * when exception happens invoke method from this class
+ * RestControllerAdvice - to provide response in json/xml format
+ * ResponseEntityExceptionHandler - to provide default implementation for handling exceptions in spring
+ **/
 @ControllerAdvice
 public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler {
 
+    /**
+     * ExceptionHandler - to handle specific exception
+     * CustomerAlreadyExistsException - kind of exception to handle
+     * WebRequest - contains details about the request like path to invoke
+     * <p>
+     * return ResponseEntity<ErrorResponseDto> - builden response entity with error details and status code
+     **/
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {

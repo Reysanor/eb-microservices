@@ -14,8 +14,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
+@MappedSuperclass // This annotation indicates that this class is a base class for JPA entities
+@EntityListeners(AuditingEntityListener.class) // To enable auditing for this entity - createdBy, updatedBy
 @Getter @Setter @ToString
 public class BaseEntity {
 
@@ -23,7 +23,7 @@ public class BaseEntity {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @CreatedBy
+    @CreatedBy // The user who created the entity - set by audit
     @Column(updatable = false)
     private String createdBy;
 

@@ -5,13 +5,14 @@ spring:
     # active: native
     active: git
   cloud:
+    # configuration sources
     config:
       server:
         # native:
           # search-locations: "classpath:/config"
           # search-locations: "file:///Users//eazybytes//Documents//config"
         git:
-          uri: "https://github.com/eazybytes/eazybytes-config.git"
+          uri: "https://github.com/Reysanor/eb-microservices-config.git"
           default-label: main
           timeout: 5
           clone-on-start: true
@@ -22,6 +23,11 @@ spring:
     username: "guest"
     password: "guest"
 
+# config refresh in runtime – spring cloud config react to changes in repo
+# spring boot actuator – give /actuator/ with endpoints.
+# /refresh – refresh event.
+# /busrefresh – refresh event connect by message brokers like kafka or rabbitmq
+# spring cloud bus - link services with message brokers
 management:
   endpoints:
     web:

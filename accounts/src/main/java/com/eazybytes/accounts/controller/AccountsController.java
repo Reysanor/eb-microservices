@@ -27,6 +27,12 @@ import org.springframework.web.bind.annotation.*;
  * @author Eazy Bytes
  */
 
+/**
+ * AccountsController handles HTTP requests related to account operations.
+ * It provides endpoints for creating accounts and other account-related functionalities.
+ * Starting with Spring version 4.3, the single bean constructor does not need to be annotated with the @Autowired annotation.
+ */
+
 @Tag(
         name = "CRUD REST APIs for Accounts in EazyBank",
         description = "CRUD REST APIs in EazyBank to CREATE, UPDATE, FETCH AND DELETE account details"

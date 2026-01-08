@@ -17,6 +17,8 @@ services:
 
   configserver:
     image: "reysanor/configserver:s6"
+    environment:
+
     container_name: configserver-ms
     ports:
       - "8071:8071"

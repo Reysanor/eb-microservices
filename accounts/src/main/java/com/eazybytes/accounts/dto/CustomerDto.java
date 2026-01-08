@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
+// - @Schema is used by Swagger to generate API documentation
 @Schema(
         name = "Customer",
         description = "Schema to hold Customer and Account information"

@@ -3,6 +3,7 @@ server:
 spring:
   application:
     name: "accounts"
+    #profile is unchangeable, instead change configuration in accounts-prod.yml and reload
   profiles:
     active: "prod"
   datasource:
@@ -19,6 +20,7 @@ spring:
       ddl-auto: update
     show-sql: true
   config:
+    # All microservices take config from configserver
     import: "optional:configserver:http://localhost:8071/"
   rabbitmq:
     host: "localhost"
