@@ -6,6 +6,7 @@ spring:
     #profile is unchangeable, instead change configuration in accounts-prod.yml and reload
   profiles:
     active: "prod"
+    # datasource configuration for H2 database
   datasource:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
@@ -14,20 +15,34 @@ spring:
   h2:
     console:
       enabled: true
+
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
+      # used during development to update the database schema automatically
+      #ONLY FOR DEMO PURPOSES
       ddl-auto: update
     show-sql: true
   config:
     # All microservices take config from configserver
     import: "optional:configserver:http://localhost:8071/"
+  # RabbitMQ configuration for Spring Cloud Bus - message broker
   rabbitmq:
     host: "localhost"
     port: 5672
     username: "guest"
     password: "guest"
 
+# Allow to get access to selected endpoints
+# config refresh in runtime – spring cloud config react to changes in repo
+# spring boot actuator – give /actuator/ with endpoints.
+# spring cloud bus - link services with message brokers
+# spring cloud monitor - enable triggers for refresh -
+  #require webhook from github and for example hookdeck or ngrok to expose localhost to internet -
+    #ONLY FOR DEMO PURPOSES
+
+# to use actuator - to get configuration after change on server - we need include: refresh
+# to use bus refresh - to refresh configuration in all connected microserices - include: busrefresh
 management:
   endpoints:
     web:
