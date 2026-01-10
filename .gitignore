@@ -1,1 +1,12 @@
-/section2/accounts/target/
+/accounts/target/
+/accounts/.mvn/
+/accounts/mvnw.cmd
+/cards/.mvn/
+/cards/mvnw.cmd
+/loans/target/
+/loans/.mvn/
+/loans/mvnw.cmd
+/configserver/target/
+/configserver/.mvn/
+/configserver/mvnw.cmd
+
