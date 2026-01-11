@@ -35,13 +35,16 @@ services:
       file: common-config.yml
       service: microservice-base-config
 
+  # Microservices configuration like port, dependecies, environment variables
   accounts:
     image: "reysanor/accounts:s6"
+    # if not provided, docker-compose will generate a random name
     container_name: accounts-ms
     ports:
       - "8080:8080"
     depends_on:
       configserver:
+        # Wait for configserver to be healthy before starting service
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "accounts"
@@ -79,4 +82,5 @@ services:
 
 networks:
   eazybank:
+    # Use bridge network driver - this is a default driver in Docker
     driver: "bridge"

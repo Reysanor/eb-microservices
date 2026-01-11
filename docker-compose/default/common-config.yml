@@ -1,21 +1,28 @@
 services:
   network-deploy-service:
+    # Define common network for all services
     networks:
       - eazybank
 
+  # Base configuration for microservices
   microservice-base-config:
     extends:
       service: network-deploy-service
     deploy:
       resources:
         limits:
+          # Set memory limit for microservices in megabytes
           memory: 700m
     environment:
       SPRING_RABBITMQ_HOST: "rabbit"
 
+  # Configuration for configuration server microservice
   microservice-configserver-config:
     extends:
       service: microservice-base-config
     environment:
+      # define active profile
       SPRING_PROFILES_ACTIVE: default
+      #The spring.config.import property in Spring Boot is used to specify external configuration sources, such as a configuration server.
+      #You can override this property using the environment variable SPRING_CONFIG_IMPORT to point to a local or remote configuration server.
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
