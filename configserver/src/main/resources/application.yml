@@ -17,6 +17,7 @@ spring:
           timeout: 5
           clone-on-start: true
           force-pull: true
+  # RabbitMQ configuration for Spring Cloud Bus - message broker to refresh config in runtime on all services
   rabbitmq:
     host: "localhost"
     port: 5672
@@ -29,12 +30,14 @@ management:
     web:
       exposure:
         include: "*"
-  # Enable health checks - readiness and liveness probes
+  # Enable health checks - readiness (ready to receive network traffic) and liveness (service is running)
+  #Using Spring Boot Actuator Health Indicators - actuator/health/readiness and actuator/health/liveness  endpoints
   health:
     readiness-state:
       enabled: true
     liveness-state:
       enabled: true
+  # Enable health probes endpoint
   endpoint:
     health:
       probes:

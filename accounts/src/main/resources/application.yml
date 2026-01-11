@@ -26,7 +26,7 @@ spring:
   config:
     # All microservices take config from configserver
     import: "optional:configserver:http://localhost:8071/"
-  # RabbitMQ configuration for Spring Cloud Bus - message broker
+  # RabbitMQ configuration for Spring Cloud Bus - message broker to refresh config in runtime on all services
   rabbitmq:
     host: "localhost"
     port: 5672
