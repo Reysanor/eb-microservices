@@ -1,4 +1,34 @@
 services:
+  accountsdb:
+    container_name: accountsdb
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: accountsdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
+  loansdb:
+    container_name: loansdb
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: loansdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
+  cardsdb:
+    container_name: cardsdb
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_DATABASE: cardsdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
   rabbit:
     image: rabbitmq:3.13-management
     hostname: rabbitmq
@@ -46,8 +76,11 @@ services:
       configserver:
         # Wait for configserver to be healthy before starting service
         condition: service_healthy
+      accountsdb:
+        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "accounts"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://accountsdb:3306/accountsdb"
     extends:
       file: common-config.yml
       service: microservice-configserver-config
@@ -60,8 +93,13 @@ services:
     depends_on:
       configserver:
         condition: service_healthy
+      loansdb:
+        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "loans"
+      # with database service name
+      SPRING_DATASOURCE_URL: "jdbc:mysql://loansdb:3306/loansdb"
+
     extends:
       file: common-config.yml
       service: microservice-configserver-config
@@ -74,8 +112,11 @@ services:
     depends_on:
       configserver:
         condition: service_healthy
+      cardsdb:
+        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "cards"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3306/cardsdb"
     extends:
       file: common-config.yml
       service: microservice-configserver-config

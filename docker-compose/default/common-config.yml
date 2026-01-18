@@ -4,6 +4,21 @@ services:
     networks:
       - eazybank
 
+
+  # Base configuration for microservices
+  microservice-db-config:
+    extends:
+      service: network-deploy-service
+    image: mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
   # Base configuration for microservices
   microservice-base-config:
     extends:
@@ -26,3 +41,5 @@ services:
       #The spring.config.import property in Spring Boot is used to specify external configuration sources, such as a configuration server.
       #You can override this property using the environment variable SPRING_CONFIG_IMPORT to point to a local or remote configuration server.
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+      SPRING_DATASORCE_USERNAME: root
+      SPRING_DATASORCE_PASSWORD: root
