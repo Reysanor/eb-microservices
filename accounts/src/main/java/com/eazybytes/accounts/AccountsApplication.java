@@ -9,9 +9,12 @@ import io.swagger.v3.oas.annotations.info.License;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
+@EnableFeignClients // Enable Connection with other microservices with inter-service communication without creating hardcoded REST API calls with RestTemplate or WebClient.
+					// Just create a Feign Client interface and Spring will automatically generate the implementation at runtime to handle the REST API calls to other microservices.
 /*@ComponentScans({ @ComponentScan("com.eazybytes.accounts.controller") })
 @EnableJpaRepositories("com.eazybytes.accounts.repository")
 @EntityScan("com.eazybytes.accounts.model")*/

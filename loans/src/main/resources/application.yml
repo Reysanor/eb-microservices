@@ -32,3 +32,27 @@ management:
     web:
       exposure:
         include: "*"
+  endpoint:
+    # on shutdown de-register service from eureka server, but it is not recommended to use it in production, because it can cause issues with load balancer and service discovery
+    shutdown:
+      access: unrestricted
+  # info
+  info:
+    env:
+      enabled: true
+
+eureka:
+  instance:
+    # to register service with IP address instead of hostname, useful in docker environment. Hostname is used with DNS mapping.
+    preferIpAddress: true
+  client:
+    fetchRegistry: true # to fetch registry from eureka server
+    registerWithEureka: true # to register this service in eureka server
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/
+
+info:
+  app:
+    name: "loans"
+    description: "Eazy Bank Loans Application"
+    version: "1.0.0"
