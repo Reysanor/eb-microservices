@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+// Filter to trace the request and add a correlation id to the request header if it is not present.
+// This filter is executed before the request is forwarded to the downstream services.
+// The correlation id is used to trace the request across multiple services and to identify the request in the logs.
 @Order(1)
 @Component
 public class RequestTraceFilter implements GlobalFilter {

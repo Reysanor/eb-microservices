@@ -8,7 +8,11 @@ spring:
     gateway:
       discovery:
         locator:
+          # When disabled, Spring Cloud Gateway will not automatically create routes based on service discovery.
+          # You will need to manually define routes in your configuration for each service you want to route to.
           enabled: false
+          # By default, Spring Cloud Gateway uses the service ID as the route ID and the path prefix for the route. Setting lowerCaseServiceId to true will convert the service ID to lowercase before using it as the route ID and path prefix.
+          # This can be useful if your service IDs are in uppercase and you want to ensure that the routes are defined in lowercase for consistency.
           lowerCaseServiceId: true
 
 management:
