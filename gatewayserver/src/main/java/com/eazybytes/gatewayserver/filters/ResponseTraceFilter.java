@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import reactor.core.publisher.Mono;
 
+// Filter to trace the response and add a correlation id to the response header if it is not present.
 @Configuration
 public class ResponseTraceFilter {
 
@@ -17,6 +18,9 @@ public class ResponseTraceFilter {
     @Autowired
     FilterUtility filterUtility;
 
+    // implementing the GlobalFilter interface to create a global filter that is executed for all the requests.
+    // used by RequestTraceFilter to add the correlation id to the response header.
+    // This filter is executed after the request is forwarded to the downstream services.
     @Bean
     public GlobalFilter postGlobalFilter() {
         return (exchange, chain) -> {

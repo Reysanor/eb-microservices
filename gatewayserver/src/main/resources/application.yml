@@ -37,5 +37,6 @@ logging:
   level:
     com:
       eazybytes:
+        # Set the logging level for the "com.eazybytes" package to DEBUG. This means that all log messages at the DEBUG level and above (INFO, WARN, ERROR) will be logged for classes in this package.
         gatewayserver: DEBUG
 
