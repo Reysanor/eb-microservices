@@ -56,3 +56,9 @@ info:
     description: "Eazy Bank Cards Application"
     version: "1.0.0"
 
+logging:
+  level:
+    com:
+      eazybytes:
+        # Set the logging level for the "com.eazybytes" package to DEBUG. This means that all log messages at the DEBUG level and above (INFO, WARN, ERROR) will be logged for classes in this package.
+        cards: DEBUG

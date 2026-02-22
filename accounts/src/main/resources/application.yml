@@ -46,12 +46,12 @@ spring:
     username: "guest"
     password: "guest"
 
-# Allow to get access to selected endpoints
-# config refresh in runtime – spring cloud config react to changes in repo
-# spring boot actuator – give /actuator/ with endpoints.
-# spring cloud bus - link services with message brokers
-# spring cloud monitor - enable triggers for refresh -
-  #require webhook from github and for example hookdeck or ngrok to expose localhost to internet -
+    # Allow to get access to selected endpoints
+    # config refresh in runtime – spring cloud config react to changes in repo
+    # spring boot actuator – give /actuator/ with endpoints.
+    # spring cloud bus - link services with message brokers
+    # spring cloud monitor - enable triggers for refresh -
+    #require webhook from github and for example hookdeck or ngrok to expose localhost to internet -
     #ONLY FOR DEMO PURPOSES
 
 # to use actuator - to get configuration after change on server - we need include: refresh
@@ -85,3 +85,10 @@ info:
     name: "accounts"
     description: "Eazy Bank Accounts Application"
     version: "1.0.0"
+
+logging:
+  level:
+    com:
+      eazybytes:
+        # Set the logging level for the "com.eazybytes" package to DEBUG. This means that all log messages at the DEBUG level and above (INFO, WARN, ERROR) will be logged for classes in this package.
+        accounts: DEBUG
