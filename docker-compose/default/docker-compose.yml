@@ -46,7 +46,7 @@ services:
       service: network-deploy-service
 
   configserver:
-    image: "reysanor/configserver:s6"
+    image: "reysanor/configserver:s"
     environment:
 
     container_name: configserver-ms
@@ -65,8 +65,26 @@ services:
       file: common-config.yml
       service: microservice-base-config
 
+  gatewayserver:
+    image: "reysanor/gatewayserver:s"
+    container_name: gatewayserver-ms
+    ports:
+      - "8072:8072"
+    depends_on:
+      accounts:
+        condition: service_healthy
+      cards:
+        condition: service_healthy
+      loans:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "gatewayserver"
+    extends:
+      file: common-config.yml
+      service: microservice-eureka-config
+
   eurekaserver:
-    image: "eazybytes/eurekaserver:s6"
+    image: "reysanor/eurekaserver:s"
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -87,9 +105,15 @@ services:
 
   # Microservices configuration like port, dependecies, environment variables
   accounts:
-    image: "reysanor/accounts:s6"
+    image: "reysanor/accounts:s"
     # if not provided, docker-compose will generate a random name
     container_name: accounts-ms
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     ports:
       - "8080:8080"
     depends_on:
@@ -108,8 +132,14 @@ services:
       service: microservice-eureka-config
 
   loans:
-    image: "reysanor/loans:s6"
+    image: "reysanor/loans:s"
     container_name: loans-ms
+    healthcheck:
+      test: "curl --fail --silent localhost:8090/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     ports:
       - "8090:8090"
     depends_on:
@@ -129,8 +159,14 @@ services:
 
   # for load balancing testing
   loans1:
-    image: "reysanor/loans:s6"
+    image: "reysanor/loans:s"
     container_name: loans-ms1
+    healthcheck:
+      test: "curl --fail --silent localhost:8091/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     ports:
       - "8091:8090"
     depends_on:
@@ -150,7 +186,13 @@ services:
 
 
   cards:
-    image: "reysanor/cards:s6"
+    image: "reysanor/cards:s"
+    healthcheck:
+      test: "curl --fail --silent localhost:9000/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     container_name: cards-ms
     ports:
       - "9000:9000"
