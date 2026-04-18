@@ -14,6 +14,16 @@ spring:
           # By default, Spring Cloud Gateway uses the service ID as the route ID and the path prefix for the route. Setting lowerCaseServiceId to true will convert the service ID to lowercase before using it as the route ID and path prefix.
           # This can be useful if your service IDs are in uppercase and you want to ensure that the routes are defined in lowercase for consistency.
           lowerCaseServiceId: true
+      # Configure the HTTP client used by Spring Cloud Gateway for making requests to downstream services. This configuration sets the connection timeout and response timeout for the HTTP client.
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 10s
+  data:
+    redis:
+      connect-timeout: 2s
+      host: localhost
+      port: 6379
+      timeout: 1s
 
 management:
   endpoints:
@@ -39,4 +49,17 @@ logging:
       eazybytes:
         # Set the logging level for the "com.eazybytes" package to DEBUG. This means that all log messages at the DEBUG level and above (INFO, WARN, ERROR) will be logged for classes in this package.
         gatewayserver: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
+# Resilience4j is a fault tolerance library designed for Java applications.
+# It provides various patterns such as circuit breakers, rate limiters, retries, and bulkheads to help developers build resilient applications.
+# The configuration snippet you provided is for the circuit breaker pattern in Resilience4j.
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
 

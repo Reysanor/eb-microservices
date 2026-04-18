@@ -53,7 +53,10 @@ spring:
     # spring cloud monitor - enable triggers for refresh -
     #require webhook from github and for example hookdeck or ngrok to expose localhost to internet -
     #ONLY FOR DEMO PURPOSES
-
+    cloud:
+      openfeign:
+        circuitbreaker:
+          enabled: true
 # to use actuator - to get configuration after change on server - we need include: refresh
 # to use bus refresh - to refresh configuration in all connected microserices - include: busrefresh
 management:
@@ -77,6 +80,9 @@ management:
   info:
     env:
       enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 eureka:
   instance:
@@ -100,3 +106,32 @@ logging:
       eazybytes:
         # Set the logging level for the "com.eazybytes" package to DEBUG. This means that all log messages at the DEBUG level and above (INFO, WARN, ERROR) will be logged for classes in this package.
         accounts: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
+
+resilience4j.retry:
+  configs:
+    default:
+      maxAttempts: 3
+      waitDuration: 500
+      enableExponentialBackoff: true
+      exponentialBackoffMultiplier: 2
+      ignoreExceptions:
+        - java.lang.NullPointerException
+      retryExceptions:
+        - java.util.concurrent.TimeoutException
+
+resilience4j.ratelimiter:
+  configs:
+    default:
+      timeoutDuration: 1000
+      limitRefreshPeriod: 5000
+      limitForPeriod: 1

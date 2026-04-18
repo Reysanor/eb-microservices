@@ -29,7 +29,10 @@ services:
           # Set memory limit for microservices in megabytes
           memory: 700m
     environment:
-      SPRING_RABBITMQ_HOST: "rabbit"
+      JAVA_TOOL_OPTIONS: "-javaagent:/app/libs/opentelemetry-javaagent-2.11.0.jar"
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+      OTEL_METRICS_EXPORTER: none
+      OTEL_LOGS_EXPORTER: none
 
   # Configuration for configuration server microservice
   microservice-configserver-config:
@@ -41,5 +44,9 @@ services:
       #The spring.config.import property in Spring Boot is used to specify external configuration sources, such as a configuration server.
       #You can override this property using the environment variable SPRING_CONFIG_IMPORT to point to a local or remote configuration server.
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
-      SPRING_DATASORCE_USERNAME: root
-      SPRING_DATASORCE_PASSWORD: root
+
+  microservice-eureka-config:
+    extends:
+      service: microservice-configserver-config
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/

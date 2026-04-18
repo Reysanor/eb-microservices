@@ -27,6 +27,11 @@ spring:
     username: "guest"
     password: "guest"
 
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+
 management:
   endpoints:
     web:
@@ -48,6 +53,10 @@ management:
   info:
     env:
       enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
 
 eureka:
   instance:
@@ -71,3 +80,5 @@ logging:
       eazybytes:
         # Set the logging level for the "com.eazybytes" package to DEBUG. This means that all log messages at the DEBUG level and above (INFO, WARN, ERROR) will be logged for classes in this package.
         loans: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
