@@ -1,5 +1,4 @@
 services:
-
   read:
     image: grafana/loki:3.1.2
     command: "-config.file=/etc/loki/config.yaml -target=read"
@@ -215,54 +214,6 @@ services:
       file: common-config.yml
       service: network-deploy-service
 
-
-
-  accountsdb:
-    container_name: accountsdb
-    ports:
-      - 3306:3306
-    environment:
-      MYSQL_DATABASE: accountsdb
-    extends:
-      file: common-config.yml
-      service: microservice-db-config
-
-  loansdb:
-    container_name: loansdb
-    ports:
-      - 3307:3306
-    environment:
-      MYSQL_DATABASE: loansdb
-    extends:
-      file: common-config.yml
-      service: microservice-db-config
-
-  cardsdb:
-    container_name: cardsdb
-    ports:
-      - 3308:3306
-    environment:
-      MYSQL_DATABASE: cardsdb
-    extends:
-      file: common-config.yml
-      service: microservice-db-config
-
-  rabbit:
-    image: rabbitmq:3.13-management
-    hostname: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    healthcheck:
-      test: rabbitmq-diagnostics check_port_connectivity
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
-    extends:
-      file: common-config.yml
-      service: network-deploy-service
-
   configserver:
     image: "reysanor/configserver:s"
     environment:
@@ -282,24 +233,6 @@ services:
     extends:
       file: common-config.yml
       service: microservice-base-config
-
-  gatewayserver:
-    image: "reysanor/gatewayserver:s"
-    container_name: gatewayserver-ms
-    ports:
-      - "8072:8072"
-    depends_on:
-      accounts:
-        condition: service_healthy
-      cards:
-        condition: service_healthy
-      loans:
-        condition: service_healthy
-    environment:
-      SPRING_APPLICATION_NAME: "gatewayserver"
-    extends:
-      file: common-config.yml
-      service: microservice-eureka-config
 
   eurekaserver:
     image: "reysanor/eurekaserver:s"
@@ -402,7 +335,6 @@ services:
       file: common-config.yml
       service: microservice-eureka-config
 
-
   cards:
     image: "reysanor/cards:s"
     healthcheck:
@@ -427,6 +359,71 @@ services:
     extends:
       file: common-config.yml
       service: microservice-eureka-config
+
+  gatewayserver:
+    image: "reysanor/gatewayserver:s"
+    container_name: gatewayserver-ms
+    ports:
+      - "8072:8072"
+    depends_on:
+      accounts:
+        condition: service_healthy
+      cards:
+        condition: service_healthy
+      loans:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "gatewayserver"
+    extends:
+      file: common-config.yml
+      service: microservice-eureka-config
+
+  # Databases for microservices and rabbit for asynchronous communication between microservices
+  accountsdb:
+    container_name: accountsdb
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: accountsdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
+  loansdb:
+    container_name: loansdb
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: loansdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
+  cardsdb:
+    container_name: cardsdb
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_DATABASE: cardsdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
+  rabbit:
+    image: rabbitmq:3.13-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
 
 networks:
   eazybank:
